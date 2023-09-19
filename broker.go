@@ -25,9 +25,18 @@ func subscribeToChannel(nc stan.Conn, channelName string) (stan.Subscription, er
 			return
 		}
 
+		// Кэшировать полученные данные
+		cachedOrder, found := getFromCache(order.OrderUID)
+		if found {
+			log.Printf("Данные уже есть в кэше: %+v", cachedOrder)
+		}
 		if err := db.Create(&order).Error; err != nil {
 			log.Printf("Ошибка при записи в БД: %v", err)
 		}
+
+		log.Printf("Данные успешно сохранены в БД")
+		cacheData(order)
+
 	})
 
 	if err != nil {

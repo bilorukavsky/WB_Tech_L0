@@ -55,20 +55,20 @@ type Item struct {
 
 type Order struct {
 	gorm.Model
-	OrderUID        *string  `json:"order_uid"`
-	TrackNumber     *string  `json:"track_number"`
-	Entry           *string  `json:"entry"`
+	OrderUID        string   `json:"order_uid"`
+	TrackNumber     string   `json:"track_number"`
+	Entry           string   `json:"entry"`
 	Delivery        Delivery `json:"delivery"`
 	Payment         Payment  `json:"payment"`
 	Items           []Item   `json:"items"`
-	Locale          *string  `json:"locale"`
-	InternalSig     *string  `json:"internal_signature"`
-	CustomerID      *string  `json:"customer_id"`
-	DeliveryService *string  `json:"delivery_service"`
-	ShardKey        *string  `json:"shardkey"`
+	Locale          string   `json:"locale"`
+	InternalSig     string   `json:"internal_signature"`
+	CustomerID      string   `json:"customer_id"`
+	DeliveryService string   `json:"delivery_service"`
+	ShardKey        string   `json:"shardkey"`
 	SMID            int      `json:"sm_id"`
-	DateCreated     *string  `json:"date_created"`
-	OOFShard        *string  `json:"oof_shard"`
+	DateCreated     string   `json:"date_created"`
+	OOFShard        string   `json:"oof_shard"`
 }
 
 func main() {
@@ -81,6 +81,8 @@ func main() {
 	initializeDB()
 	defer closeDB() // Закрыть соединение с базой данных
 	migrateDB()     // Создание таблиц
+
+	initializeCacheFromDB()
 
 	clusterID := os.Getenv("CLUSTER_ID")
 	clientID := os.Getenv("CLIENT_ID")
