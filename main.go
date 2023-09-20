@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -39,6 +40,11 @@ func main() {
 	defer subscription.Close()
 
 	log.Printf("Подписка на канал '%s'...\n", channelName)
+
+	// Обработчик для отображения данных заказа по ID
+	http.HandleFunc("/order/", getOrderByID)
+
+	log.Fatal(http.ListenAndServe(":8080", nil)) // Запуск сервера на порту 8080
 
 	waitForInterrupt()
 }
