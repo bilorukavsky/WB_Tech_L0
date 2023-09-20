@@ -71,6 +71,8 @@ type Order struct {
 	OOFShard        string   `json:"oof_shard"`
 }
 
+var cache = NewCache()
+
 func main() {
 	// Подключение к базе данных
 	err := godotenv.Load()
@@ -82,7 +84,7 @@ func main() {
 	defer closeDB() // Закрыть соединение с базой данных
 	migrateDB()     // Создание таблиц
 
-	initializeCacheFromDB()
+	cache.InitializeFromDB()
 
 	clusterID := os.Getenv("CLUSTER_ID")
 	clientID := os.Getenv("CLIENT_ID")

@@ -26,7 +26,7 @@ func subscribeToChannel(nc stan.Conn, channelName string) (stan.Subscription, er
 		}
 
 		// Кэшировать полученные данные
-		cachedOrder, found := getFromCache(order.OrderUID)
+		cachedOrder, found := cache.Get(order.OrderUID)
 		if found {
 			log.Printf("Данные уже есть в кэше: %+v", cachedOrder)
 		}
@@ -35,7 +35,7 @@ func subscribeToChannel(nc stan.Conn, channelName string) (stan.Subscription, er
 		}
 
 		log.Printf("Данные успешно сохранены в БД")
-		cacheData(order)
+		cache.Set(order.OrderUID, order)
 
 	})
 
