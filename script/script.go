@@ -21,9 +21,9 @@ func main() {
 		log.Fatal("Ошибка загрузки .env файла")
 	}
 
-	clusterID := os.Getenv("CLUSTER_ID")
-	clientID := os.Getenv("CLIENT_ID")
-	channelName := os.Getenv("CHANNEL_NAME")
+	clusterID := os.Getenv("CLUSTER_ID")     
+	clientID := os.Getenv("CLIENT_ID")       
+	channelName := os.Getenv("CHANNEL_NAME") 
 
 	// Подключение к NATS Streaming
 	nc, err := stan.Connect(clusterID, clientID)
@@ -34,7 +34,7 @@ func main() {
 
 	// Бесконечный цикл для публикации сообщений
 	for {
-		message := Message{Text: "Сообщение"}
+		message := Message{Text: "Сообщение"} 
 
 		messageJSON, err := json.Marshal(message)
 		if err != nil {
