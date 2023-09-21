@@ -24,34 +24,6 @@ func main() {
 	clientID := os.Getenv("CLIENT_ID")       
 	channelName := os.Getenv("CHANNEL_NAME") 
 
-	/*// Подключение к NATS Streaming
-	nc, err := stan.Connect(clusterID, clientID)
-	if err != nil {
-		log.Fatalf("Ошибка подключения к NATS Streaming: %v", err)
-	}
-	defer nc.Close()
-
-	// Бесконечный цикл для публикации сообщений
-	for {
-		message := Message{Text: "Сообщение"} 
-
-		messageJSON, err := json.Marshal(message)
-		if err != nil {
-			log.Printf("Ошибка при маршалинге JSON: %v", err)
-			continue
-		}
-
-		err = nc.Publish(channelName, messageJSON)
-		if err != nil {
-			log.Printf("Ошибка при публикации сообщения: %v", err)
-		} else {
-			fmt.Println("Сообщение успешно опубликовано.")
-		}
-
-		// Подождать некоторое время перед отправкой следующего сообщения
-		time.Sleep(5 * time.Second)
-	}*/
-
 	// Откройте JSON файл и считайте его содержимое
 	messageFile, err := os.Open("model.json")
 	if err != nil {
