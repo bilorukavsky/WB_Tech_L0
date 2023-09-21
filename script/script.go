@@ -20,9 +20,9 @@ func main() {
 		log.Fatal("Ошибка загрузки .env файла")
 	}
 
-	clusterID := os.Getenv("CLUSTER_ID")
-	clientID := os.Getenv("CLIENT_ID")
-	channelName := os.Getenv("CHANNEL_NAME")
+	clusterID := os.Getenv("CLUSTER_ID")     
+	clientID := os.Getenv("CLIENT_ID")       
+	channelName := os.Getenv("CHANNEL_NAME") 
 
 	// Откройте JSON файл и считайте его содержимое
 	messageFile, err := os.Open("model.json")
