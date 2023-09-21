@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/nats-io/stan.go"
@@ -25,7 +24,7 @@ func main() {
 	clientID := os.Getenv("CLIENT_ID")       
 	channelName := os.Getenv("CHANNEL_NAME") 
 
-	// Подключение к NATS Streaming
+	/*// Подключение к NATS Streaming
 	nc, err := stan.Connect(clusterID, clientID)
 	if err != nil {
 		log.Fatalf("Ошибка подключения к NATS Streaming: %v", err)
@@ -51,5 +50,38 @@ func main() {
 
 		// Подождать некоторое время перед отправкой следующего сообщения
 		time.Sleep(5 * time.Second)
+	}*/
+
+	// Откройте JSON файл и считайте его содержимое
+	messageFile, err := os.Open("model.json")
+	if err != nil {
+		log.Fatalf("Ошибка при открытии JSON файла: %v", err)
+	}
+	defer messageFile.Close()
+
+	var jsonData map[string]interface{}
+	decoder := json.NewDecoder(messageFile)
+	if err := decoder.Decode(&jsonData); err != nil {
+		log.Fatalf("Ошибка при декодировании JSON: %v", err)
+	}
+
+	// Подключение к NATS Streaming
+	nc, err := stan.Connect(clusterID, clientID)
+	if err != nil {
+		log.Fatalf("Ошибка подключения к NATS Streaming: %v", err)
+	}
+	defer nc.Close()
+
+	// Преобразовать JSON и отправить в канал
+	jsonMessage, err := json.Marshal(jsonData)
+	if err != nil {
+		log.Fatalf("Ошибка при маршалинге JSON: %v", err)
+	}
+
+	err = nc.Publish(channelName, jsonMessage)
+	if err != nil {
+		log.Fatalf("Ошибка при публикации JSON: %v", err)
+	} else {
+		fmt.Println("JSON успешно опубликован.")
 	}
 }

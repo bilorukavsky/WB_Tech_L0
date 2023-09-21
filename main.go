@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -39,6 +40,17 @@ func main() {
 	defer subscription.Close()
 
 	log.Printf("Подписка на канал '%s'...\n", channelName)
+
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	// Обработчик для отображения данных заказа по ID
+	http.HandleFunc("/order/", getOrderByID)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/index.html")
+	})
+
+	log.Fatal(http.ListenAndServe(":8080", nil)) // Запуск сервера на порту 8080
 
 	waitForInterrupt()
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Отображение данных заказа</title>
+</head>
+<body>
+    <h1>Отображение данных заказа</h1>
+    <label for="orderID">Введите ID заказа:</label>
+    <input type="text" id="orderID" placeholder="Введите ID заказа">
+    <button onclick="fetchOrder()">Получить заказ</button>
+    <div id="orderDetails"></div>
+
+    <script>
+        function fetchOrder() {
+            const orderID = document.getElementById("orderID").value;
+
+            // Отправить запрос на сервер, чтобы получить данные заказа
+            fetch(`/order/${orderID}`)
+                .then(response => response.json())
+                .then(data => {
+                    const orderDetails = document.getElementById("orderDetails");
+                    if (data.error) {
+                        orderDetails.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                    } else {
+                        orderDetails.innerHTML = JSON.stringify(data, null, 2);
+                    }
+                })
+                .catch(error => {
+                    console.error("Ошибка при получении данных заказа:", error);
+                });
+        }
+    </script>
+</body>
+</html>
