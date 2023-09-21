@@ -12,14 +12,16 @@
 
 3. **Настройка .env файла:**
    - Создайте файл с именем `.env` в корне проекта и добавьте следующие переменные окружения, заменив значения на свои:
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_USER=ваш_пользователь
-    DB_PASSWORD=ваш_пароль
-    DB_NAME=ваша_база_данных
-    CLUSTER_ID=ваш_cluster_id
-    CLIENT_ID=ваш_client_id
-    CHANNEL_NAME=ваш_channel_name
+     ```
+        DB_HOST=localhost
+        DB_PORT=5432
+        DB_USER=ваш_пользователь
+        DB_PASSWORD=ваш_пароль
+        DB_NAME=ваша_база_данных
+        CLUSTER_ID=ваш_cluster_id
+        CLIENT_ID=ваш_client_id
+        CHANNEL_NAME=ваш_channel_name
+     ```
 
 ## Запуск сервиса
 
